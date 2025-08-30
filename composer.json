@@ -3,6 +3,15 @@
     "license": "proprietary",
     "minimum-stability": "stable",
     "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../user-agent-analyzer",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
     "require": {
         "php": ">=8.2",
         "ext-ctype": "*",
@@ -13,7 +22,8 @@
         "symfony/flex": "^2",
         "symfony/framework-bundle": "7.3.*",
         "symfony/runtime": "7.3.*",
-        "symfony/yaml": "7.3.*"
+        "symfony/yaml": "7.3.*",
+        "eprofos/user-agent-analyzer": "@dev"
     },
     "config": {
         "allow-plugins": {

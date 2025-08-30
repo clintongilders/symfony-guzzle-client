@@ -1,4 +1,7 @@
 {
+    "eprofos/user-agent-analyzer": {
+        "version": "dev-main"
+    },
     "phpstan/phpstan": {
         "version": "2.1",
         "recipe": {

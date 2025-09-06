@@ -16,14 +16,15 @@
         "php": ">=8.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "guzzlehttp/guzzle": "^7.0",
+        "eprofos/user-agent-analyzer": "@dev",
+        "guzzlehttp/guzzle": "^7.10",
+        "guzzlehttp/guzzle-services": "^1.4",
         "symfony/console": "7.3.*",
         "symfony/dotenv": "7.3.*",
-        "symfony/flex": "^2",
+        "symfony/flex": "^2.8.2",
         "symfony/framework-bundle": "7.3.*",
         "symfony/runtime": "7.3.*",
-        "symfony/yaml": "7.3.*",
-        "eprofos/user-agent-analyzer": "@dev"
+        "symfony/yaml": "7.3.*"
     },
     "config": {
         "allow-plugins": {
@@ -76,6 +77,6 @@
         }
     },
     "require-dev": {
-        "rector/rector": "^2.1"
+        "rector/rector": "^2.1.6"
     }
 }

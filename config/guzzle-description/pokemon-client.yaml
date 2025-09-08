@@ -1,0 +1,26 @@
+name: PokemonClient
+baseUri: https://pokeapi.co/api/v2/
+
+operations:
+  getPokemonList:
+    httpMethod: GET
+    uri: pokemon
+    parameters:
+      limit:
+        type: integer
+        location: query
+        required: false
+        default: 20
+      offset:
+        type: integer
+        location: query
+        required: false
+        default: 0
+  getPokemon:
+    httpMethod: GET
+    uri: pokemon/{name}
+    parameters:
+      name:
+        type: string
+        required: true
+        location: uri

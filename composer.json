@@ -6,7 +6,7 @@
     "repositories": [
         {
             "type": "path",
-            "url": "../user-agent-analyzer",
+            "url": "../guzzle-description-loader",
             "options": {
                 "symlink": true
             }
@@ -16,9 +16,9 @@
         "php": ">=8.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "eprofos/user-agent-analyzer": "@dev",
         "guzzlehttp/guzzle": "^7.10",
-        "guzzlehttp/guzzle-services": "^1.4",
+        "gimler/guzzle-description-loader": "@dev",
+        "guzzlehttp/guzzle-services": "^1.4.2",
         "symfony/console": "7.3.*",
         "symfony/dotenv": "7.3.*",
         "symfony/flex": "^2.8.2",
@@ -77,6 +77,7 @@
         }
     },
     "require-dev": {
-        "rector/rector": "^2.1.6"
+        "friendsofphp/php-cs-fixer": "^3.87",
+        "rector/rector": "^2.1"
     }
 }

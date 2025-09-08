@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserAgentController extends AbstractController
 {
     #[Route('/user-agent', name: 'app_user_agent')]
-    public function userAgent(UserAgentAnalyzer $analyzer)
+    public function userAgent(UserAgentAnalyzer $analyzer): \Symfony\Component\HttpFoundation\Response
     {
         $result = $analyzer->analyzeCurrentRequest();
         

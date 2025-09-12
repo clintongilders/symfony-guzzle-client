@@ -66,15 +66,15 @@ abstract class AbstractBaseClient
             default:
                 throw new \InvalidArgumentException("Unsupported URI parameter type: {$param->getType()}");
         }
-    }   
+    }
 
     protected function processConfiguration($configuration, $parameters): string
     {
         $uri = $configuration->getUri();
-        
+
         if ($configuration->getParams() !== null) {
             foreach ($configuration->getParams() as $name => $param) {
-                if (! isset($parameters[0][$name]) && $param->getRequired() === true) {
+                if (! isset($parameters[0][$name]) && $param->isRequired() === true) {
                     if ($param->default() === null) {
                         if ($param->getLocation() === 'uri') {
                             throw new \InvalidArgumentException("Missing required URI parameter: {$name}");
@@ -86,20 +86,20 @@ abstract class AbstractBaseClient
                     }
                     throw new \InvalidArgumentException("Missing required parameter: {$name}");
                 }
-                
+
                 if (isset($parameters[0][$name])) {
-                    
+
                     if ($param->getLocation() === 'query') {
                         $this->validateQueryParameter($param, $parameters[0][$name], $name);
                     }
-                    
+
                     if ($param->getLocation() === 'uri') {
                         $this->validateUriParameter($param, $parameters[0][$name], $name);
                         $uri = str_replace('{' . $name . '}', $parameters[0][$name], $uri);
                         continue;
                     }
                 } else {
-                    if ($param->getRequired() === true) {
+                    if ($param->isRequired() === true) {
                         throw new \InvalidArgumentException("Missing required parameter: {$name}");
                     }
                     continue;
@@ -109,7 +109,8 @@ abstract class AbstractBaseClient
         return $uri;
     }
 
-    public function __call($name,$parameters) {
+    public function __call($name, $parameters)
+    {
         if ($this->description->getOperations() !== null && array_key_exists($name, $this->description->getOperations())) {
             $configuration = $this->description->getOperation($name);
 

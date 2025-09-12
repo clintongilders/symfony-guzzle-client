@@ -27,7 +27,7 @@ class PokemonCommand extends Command
         //    'limit' => 100,
         //    'offset' => 0
         //];
-        $result5 = $this->pokemonClient->getPokemonList($params);
+        $result5 = $this->pokemonClient->getPokemonList();
         //$output->writeln(print_r($result2, true));
         $output->writeln(print_r($result5, true));
         return Command::SUCCESS;

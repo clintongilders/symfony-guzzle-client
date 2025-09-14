@@ -15,7 +15,8 @@ abstract class AbstractBaseClient
     protected Description $description;
     protected Client $client;
 
-    public function __construct(#[Autowire('%kernel.project_dir%')] private string $dir)
+    public function __construct(#[Autowire('%kernel.project_dir%')]
+ private readonly string $dir)
     {
         $this->loadDescriptionAndCreatClient();
     }

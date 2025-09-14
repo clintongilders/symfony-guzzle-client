@@ -22,7 +22,8 @@ class PokemonClient extends AbstractBaseClient
     protected Client $client;
     private string $baseUri = 'https://pokeapi.co/api/v2/';
 
-    public function __construct(#[Autowire('%kernel.project_dir%')] private string $dir)
+    public function __construct(#[Autowire('%kernel.project_dir%')]
+ private readonly string $dir)
     {
         parent::__construct($dir);
     }

@@ -78,3 +78,18 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VALIDATE_CHECKOV: false
           VALIDATE_TRIVY: false
+          steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4' # Specify your desired PHP version here
+          extensions: ctype, iconv, pcre, session, simplexml, tokenizer, mbstring, curl, dom, intl, openssl, xml, xmlwriter, phar, igbinary
+          ini-values: memory_limit=-1
+
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --no-progress
+
+      - name: Run Symfony Linter
+        run: php bin/console lint:container

@@ -16,7 +16,7 @@ abstract class AbstractBaseClient
     protected Client $client;
 
     public function __construct(#[Autowire('%kernel.project_dir%')]
- private readonly string $dir)
+        private readonly string $dir)
     {
         $this->loadDescriptionAndCreatClient();
     }
@@ -76,7 +76,7 @@ abstract class AbstractBaseClient
         if ($configuration->getParams() !== null) {
             foreach ($configuration->getParams() as $name => $param) {
                 if (! isset($parameters[0][$name]) && $param->isRequired() === true) {
-                    if ($param->default() === null) {
+                    if ($param->getDefault() === null) {
                         if ($param->getLocation() === 'uri') {
                             throw new \InvalidArgumentException("Missing required URI parameter: {$name}");
                         }
@@ -117,7 +117,7 @@ abstract class AbstractBaseClient
 
             if ($configuration->getHttpMethod() === 'GET') {
                 $uri = $this->processConfiguration($configuration, $parameters);
-                $response = $this->client->get($uri, $parameters[0] ?? []);
+                $response = $this->client->get($uri, ['query' => $parameters[0] ?? []]);
                 return json_decode($response->getBody()->getContents(), true);
             }
 

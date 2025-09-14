@@ -16,7 +16,7 @@ operations:
         location: query
         required: false
         default: 0
-  getPokemon:
+  getPokemonByName:
     httpMethod: GET
     uri: pokemon/{name}
     parameters:
@@ -24,3 +24,12 @@ operations:
         type: string
         required: true
         location: uri
+  getPokemonById:
+    httpMethod: GET
+    uri: pokemon/{id}
+    parameters:
+      id:
+        type: integer
+        required: true
+        location: uri
+

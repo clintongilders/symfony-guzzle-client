@@ -18,12 +18,12 @@ class PhpLoader extends FileLoader
     /**
      * {@inheritdoc}
      */
-    public function loadResource($resource)
+    public function loadResource(mixed $resource): mixed
     {
         return require $resource;
     }
 
-    public function supports($resource, $type = null): bool
+    public function supports(mixed $resource, mixed $type = null): bool
     {
         return is_string($resource) && 'php' === pathinfo(
             $resource,

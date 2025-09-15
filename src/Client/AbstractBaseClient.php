@@ -16,14 +16,14 @@ abstract class AbstractBaseClient
     protected Client $client;
 
     public function __construct(#[Autowire('%kernel.project_dir%')]
-        private readonly string $dir)
+        protected readonly string $dir)
     {
-        $this->loadDescriptionAndCreatClient();
+        $this->loadDescriptionAndCreateClient();
     }
 
-    abstract protected function loadDescriptionAndCreatClient(): void;
+    abstract protected function loadDescriptionAndCreateClient(): void;
 
-    protected function validateQueryParameter($param, $value, $name): void
+    protected function validateQueryParameter(\GuzzleHttp\Command\Guzzle\Parameter $param, mixed $value, string $name): void
     {
         switch ($param->getType()) {
             case 'integer':
@@ -32,7 +32,7 @@ abstract class AbstractBaseClient
                 }
                 break;
             case 'boolean':
-                if (!is_bool($value)) {
+                if ($value !== 'true' && $value !== 1 && $value !== 'false' && $value !== 0) {
                     throw new \InvalidArgumentException("Query parameter {$name} must be a boolean.");
                 }
                 break;
@@ -51,7 +51,7 @@ abstract class AbstractBaseClient
         }
     }
 
-    protected function validateUriParameter($param, $value, $name): void
+    protected function validateUriParameter(\GuzzleHttp\Command\Guzzle\Parameter $param, string|int $value, string|int $name): void
     {
         switch ($param->getType()) {
             case 'integer':
@@ -69,11 +69,21 @@ abstract class AbstractBaseClient
         }
     }
 
-    protected function processConfiguration($configuration, $parameters): string
+    /**
+     * Processes the operation configuration and replaces URI parameters.
+     *
+     * @param \GuzzleHttp\Command\Guzzle\Operation $configuration The operation configuration.
+     * @param array<mixed> $parameters The parameters provided for the operation.
+     *
+     * @return string The processed URI with parameters replaced.
+     *
+     * @throws \InvalidArgumentException If required parameters are missing or invalid.
+     */
+    protected function processConfiguration(\GuzzleHttp\Command\Guzzle\Operation $configuration, array $parameters): string
     {
         $uri = $configuration->getUri();
 
-        if ($configuration->getParams() !== null) {
+        if ($configuration->getParams()) {
             foreach ($configuration->getParams() as $name => $param) {
                 if (! isset($parameters[0][$name]) && $param->isRequired() === true) {
                     if ($param->getDefault() === null) {
@@ -83,7 +93,7 @@ abstract class AbstractBaseClient
                         if ($param->getLocation() === 'query') {
                             throw new \InvalidArgumentException("Missing required query parameter: {$name}");
                         }
-                        $parameters[0][$name] = $param->default();
+                        $parameters[0][$name] = $param->getDefault();
                     }
                     throw new \InvalidArgumentException("Missing required parameter: {$name}");
                 }
@@ -110,9 +120,21 @@ abstract class AbstractBaseClient
         return $uri;
     }
 
-    public function __call($name, $parameters)
+    /**
+     * Magic method to handle dynamic method calls based on the service description.
+     *
+     * @param string $name The name of the method being called.
+     * @param array<mixed> $parameters The parameters passed to the method.
+     *
+     * @return array<mixed> The response from the API call, decoded from JSON.
+     *
+     * @throws \BadMethodCallException If the method does not exist in the service description.
+     * @throws \InvalidArgumentException If required parameters are missing or invalid.
+     * @throws \GuzzleHttp\Exception\GuzzleException If the HTTP request fails.
+     */
+    public function __call($name, $parameters): array
     {
-        if ($this->description->getOperations() !== null && array_key_exists($name, $this->description->getOperations())) {
+        if (array_key_exists($name, $this->description->getOperations())) {
             $configuration = $this->description->getOperation($name);
 
             if ($configuration->getHttpMethod() === 'GET') {
@@ -122,12 +144,12 @@ abstract class AbstractBaseClient
             }
 
             if ($configuration->getHttpMethod() === 'POST') {
-                $response = $this->client->post($configuration->getUri(), ['json' => $parameter]);
+                $response = $this->client->post($configuration->getUri(), ['json' => $parameters]);
                 return json_decode($response->getBody()->getContents(), true);
             }
 
             if ($configuration->getHttpMethod() === 'PUT') {
-                $response = $this->client->put($configuration->getUri(), ['json' => $parameter]);
+                $response = $this->client->put($configuration->getUri(), ['json' => $parameters]);
                 return json_decode($response->getBody()->getContents(), true);
             }
         }

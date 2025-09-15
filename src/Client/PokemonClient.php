@@ -14,7 +14,13 @@ use App\Client\AbstractBaseClient;
  * API Documentation: https://pokeapi.co/docs/v2
  * This client uses Guzzle for HTTP requests.
  *
- * @method
+ * @method array<mixed> getPokemonById(array<mixed> $args = [])
+ *   - id: (int) The ID of the pokemon to fetch. (required)
+ * @method array<mixed> getPokemonByName(array<mixed> $args = [])
+ *   - name: (string) The name of the pokemon to fetch. (required)
+ * @method array<mixed> getPokemonList(array<mixed> $args = [])
+ *   - limit: (int) Limit the number of results returned. (optional, default: 10)
+ *   - offset: (int) The number of results to skip before starting to collect the result set. (optional, default: 0)
  */
 class PokemonClient extends AbstractBaseClient
 {
@@ -22,12 +28,7 @@ class PokemonClient extends AbstractBaseClient
     protected Client $client;
     private string $baseUri = 'https://pokeapi.co/api/v2/';
 
-    public function __construct(#[Autowire('%kernel.project_dir%')]
- private readonly string $dir)
-    {
-        parent::__construct($dir);
-    }
-    protected function loadDescriptionAndCreatClient(): void
+    protected function loadDescriptionAndCreateClient(): void
     {
         $loader = new YamlLoader(new FileLocator());
         $config = $loader->load($this->dir . '/config/guzzle-description/pokemon-client.yaml');

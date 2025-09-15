@@ -12,17 +12,18 @@
 namespace App\DescriptionLoader;
 
 use App\DescriptionLoader\FileLoader;
+use Gedmo\Blameable\Mapping\Driver\Yaml;
 use Symfony\Component\Yaml\Parser as YamlParser;
 use Symfony\Component\Yaml\Exception\ParseException;
 
 class YamlLoader extends FileLoader
 {
-    private $yamlParser;
+    private ?YamlParser $yamlParser = null;
 
     /**
      * {@inheritdoc}
      */
-    public function loadResource($resource)
+    public function loadResource(mixed $resource): mixed
     {
         if (null === $this->yamlParser) {
             if (!class_exists(\Symfony\Component\Yaml\Parser::class)) {
@@ -31,12 +32,12 @@ class YamlLoader extends FileLoader
             $this->yamlParser = new YamlParser();
         }
 
-        $configValues = $this->yamlParser->parse(file_get_contents($resource));
+        $configValues = $this->yamlParser->parse(file_get_contents($resource))??[];
 
         return $configValues;
     }
 
-    public function supports($resource, $type = null): bool
+    public function supports(mixed $resource, mixed $type = null): bool
     {
         return is_string($resource) && 'yml' === pathinfo(
             $resource,

@@ -61,24 +61,7 @@ jobs:
         run: docker compose exec -T php bin/console -e test doctrine:schema:validate
       - name: Run Rector
         #if: false # Remove this line if Rector is installed
-        run: docker compose exec -T php vendor/bin/rector process src --dry-run
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: read
-      statuses: write
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-      - name: Lint Code Base
-        uses: super-linter/super-linter/slim@v8
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VALIDATE_CHECKOV: false
-          VALIDATE_TRIVY: false
-          VALIDATE_PHP: false
+        run: docker compose exec -T php vendor/bin/rector process --dry-run
+      - name: Run PHPStan
+        #if: false # Remove this line if PHPStan is installed
+        run: docker compose exec -T php vendor/bin/phpstan analyse src tests

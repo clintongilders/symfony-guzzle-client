@@ -18,9 +18,8 @@ class JsonLoader extends FileLoader
     /**
      * {@inheritdoc}
      */
-    public function loadResource($resource)
+    public function loadResource(mixed $resource): mixed
     {
-        $configValues = [];
         if ($data = file_get_contents($resource)) {
             $configValues = json_decode($data, true);
             if (0 < $errorCode = json_last_error()) {
@@ -28,7 +27,7 @@ class JsonLoader extends FileLoader
             }
         }
 
-        return $configValues;
+        return $configValues??[];
     }
 
     /**
@@ -50,7 +49,7 @@ class JsonLoader extends FileLoader
         };
     }
 
-    public function supports($resource, $type = null): bool
+    public function supports(mixed $resource, mixed $type = null): bool
     {
         return is_string($resource) && 'json' === pathinfo(
             $resource,

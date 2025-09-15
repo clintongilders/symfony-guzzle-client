@@ -16,7 +16,7 @@ use Symfony\Component\Config\Loader\FileLoader as BaseFileLoader;
 abstract class FileLoader extends BaseFileLoader
 {
 
-    public function load($resource, $type = null): mixed
+    public function load(mixed $resource, mixed $type = null): mixed
     {
         if (!stream_is_local($resource)) {
             throw new \Exception(sprintf('This is not a local file "%s".', $resource));
@@ -45,5 +45,5 @@ abstract class FileLoader extends BaseFileLoader
      *
      * @throws InvalidResourceException If stream content has an invalid format.
      */
-    abstract protected function loadResource($resource);
+    abstract protected function loadResource(mixed $resource): mixed;
 }

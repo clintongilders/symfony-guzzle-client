@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Guzzle\Service\Loader;
+namespace App\DescriptionLoader;
 
-use Guzzle\Service\Loader\FileLoader;
+use App\DescriptionLoader\FileLoader;
 use Symfony\Component\Yaml\Parser as YamlParser;
 use Symfony\Component\Yaml\Exception\ParseException;
 

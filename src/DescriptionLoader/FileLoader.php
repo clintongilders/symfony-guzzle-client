@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Guzzle\Service\Loader;
+namespace App\DescriptionLoader;
 
 use Symfony\Component\Config\Loader\FileLoader as BaseFileLoader;
 

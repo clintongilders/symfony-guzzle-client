@@ -3,7 +3,7 @@
 namespace App\Client;
 
 use GuzzleHttp\Client;
-use Guzzle\Service\Loader\YamlLoader;
+use App\DescriptionLoader\YamlLoader;
 use GuzzleHttp\Command\Guzzle\Description;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;

@@ -31,18 +31,6 @@ RUN set -eux; \
 		intl \
 		opcache \
 		zip \
-		ctype \
-		curl \
-		dom \
-		iconv \
-		mbstring \
-		openssl \
-		simplexml \
-		tokenizer \
-		xmlwriter \
-		phar \
-		igbinary \
-		intl \
 	;
 
 # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
